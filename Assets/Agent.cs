@@ -57,11 +57,15 @@ public class Agent : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // agent is in queue
         if (currState == AgentState.InQueue){
             return;
         }
-            
+           
+        // agent is going to queue at the counter
         if (currState == AgentState.ToQueue) {
+            
+            // Once agent reaches the destination(counter), the agent state changes to InQueue
             if (ReachedDestination()) {
                 currState = AgentState.InQueue;
             }
@@ -69,12 +73,17 @@ public class Agent : MonoBehaviour
             return;
         }
 
+        // agent is going to a target and will exit the grocery store
         if (currState == AgentState.ToTarget){
+            // agent chooses a random target to go to which is located outside the store.
+            // in this simulation, the target is the parked cars outside the store.
+            // this state will happen after agent is done queueing at the counter and going through payment process.
             targets = GameObject.FindGameObjectsWithTag("Target");
             int target = GetRandomTarget();
             GotoTarget(target);
         }
 
+        // agent will wander around the store area
         if (currState == AgentState.FollowingMouse) {
             if (ReachedDestination()) {
                 currState = AgentState.Wandering;
@@ -143,12 +152,16 @@ public class Agent : MonoBehaviour
         return index;
     }
 
+    // agent will go to stall
     void GotoStall(int index) {
         SetDestination(RandomStallPos(index));
     }
+
+    // agent will go to target
     void GotoTarget(int index) {
         SetDestination(RandomTargetPos(index));
     }
+
 
     int CheckGangDestination() {
         List<Agent> agents = GetNearbyAgents(true);
@@ -203,22 +216,27 @@ public class Agent : MonoBehaviour
         return context;
     }
 
+    // After wandering the store, agent will go to queue at a counter
     public bool MovingToQueue() {
         return currState == AgentState.ToQueue;
     }
 
+    // Agent has arrived at a counter and state changes to InQueue
     public bool IsInQueue() {
         return currState == AgentState.InQueue;
     }
 
+    // Agent will move to a target located outside the store, this happens after agent is done queuing
     public bool MoveToTarget() {
         return currState == AgentState.ToTarget;
     }
 
+    // Agent state is following mouse
     public bool MovingToMouse() {
         return currState == AgentState.FollowingMouse;
     }
 
+    // Agent choose which queue to enter
     public bool MoveToQueue(int qindex)
     {
         AgentQueue chosenQ = queueList.Get(qindex);
@@ -228,7 +246,8 @@ public class Agent : MonoBehaviour
         currState = AgentState.ToQueue;
         return true;
     }
-
+    
+    // Agent is added to queue list of the counter
     public string MoveToQueue()
     {
         AgentQueue chosenQ = queueList.Get(rnd.Next(queueList.Count()));
@@ -239,8 +258,10 @@ public class Agent : MonoBehaviour
         return chosenQ.name;
     }
 
+    // What happens after agent is done queueing at counter
     public void MoveFromQueue()
     {
+        //After done queueing, and doing payment at the counter. Agent will exit the store and to the target(Car)
         currState = AgentState.ToTarget;
         TurnOnNavMeshAgent();
     }
@@ -274,7 +295,7 @@ public class Agent : MonoBehaviour
       return false;
     }
 
-
+    // Determining a random stall position for agent to go to
     public Vector3 RandomStallPos(int index) {
         GameObject stall = stalls[index];
         Vector3 stalldim = stall.transform.localScale;
@@ -290,6 +311,8 @@ public class Agent : MonoBehaviour
         return randPos;
     }
 
+
+    // Determining a random target position for agent to go to
     public Vector3 RandomTargetPos(int index) {
         GameObject target = targets[index];
         Vector3 targetdim = target.transform.localScale;
