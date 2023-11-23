@@ -2,11 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public
- 
-class
- 
-Movement : MonoBehaviour
+public class Movement : MonoBehaviour
 {
     [SerializeField] Transform playerCamera; // Reference to the player camera object
     [SerializeField][Range(0.0f, 0.5f)] float mouseSmoothTime = 0.03f; // Smoothness of mouse movement
