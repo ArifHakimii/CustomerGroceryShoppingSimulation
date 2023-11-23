@@ -1,4 +1,4 @@
-# CustomerGroceryShoppingSimulation
+# Customer Grocery Shopping Simulation
 Modelling and Simulation Project September 2023
 
 Project Members  
