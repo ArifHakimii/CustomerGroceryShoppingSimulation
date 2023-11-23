@@ -26,6 +26,7 @@ public class AgentQueue : MonoBehaviour
 
     }
 
+    // Append a new agent coming into the queue and positioning the agent in line for the queue
     public bool Add(Agent agent) {
         if (incomingAgent != null) {
             return false;
@@ -38,6 +39,7 @@ public class AgentQueue : MonoBehaviour
         return true;        
     }
 
+    // Add space between agents in the queue
     public void Shift() {
         foreach (Agent agent in agentqueue) {
             agent.transform.position -= qdir*queueSpacing;
@@ -45,6 +47,7 @@ public class AgentQueue : MonoBehaviour
         qPos -= qdir*queueSpacing; 
     }
 
+    // Remove agent in position 0 from queue
     public Agent Pop() {
         Agent agent = agentqueue[0];
         agentqueue.RemoveAt(0); 
@@ -55,6 +58,7 @@ public class AgentQueue : MonoBehaviour
         return agent;  
     }
 
+    // Size of queue
     public int Size() {
         return agentqueue.Count;
     }
