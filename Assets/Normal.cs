@@ -1,3 +1,7 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
 class Normal {
 
     // The mean of the Gaussian distribution
